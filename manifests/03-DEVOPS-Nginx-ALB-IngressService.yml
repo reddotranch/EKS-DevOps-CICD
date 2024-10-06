@@ -6,8 +6,10 @@ metadata:
   labels:
     app: eks-devops
   annotations:
+     # Load Balancer Name
+    alb.ingress.kubernetes.io/load-balancer-name: devops-ingress-service
     # Ingress Core Settings  
-    kubernetes.io/ingress.class: "alb"
+    #kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/scheme: internet-facing
     # Health Check Settings
     alb.ingress.kubernetes.io/healthcheck-protocol: HTTP 
@@ -30,13 +32,19 @@ spec:
   rules:
     - http:
         paths:
-          - path: /* # SSL Redirect Setting
+          - path: /
+            pathType: Prefix # SSL Redirect Setting
             backend:
-              serviceName: ssl-redirect
-              servicePort: use-annotation            
-          - path: /*
+              service:
+                name: ssl-redirect
+                port:
+                  number: 80        
+          - path: /
+            pathType: Prefix
             backend:
-              serviceName: eks-devops-nodeport-service
-              servicePort: 80                                   
+              service:
+                name: eks-devops-nodeport-service
+                port:
+                  number: 80                                   
 # Important Note-1: In path based routing order is very important, if we are going to use  "/*", try to use it at the end of all rules.         
 
