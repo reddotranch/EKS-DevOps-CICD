@@ -25,6 +25,7 @@ metadata:
     #alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01 #Optional (Picks default if not used)    
     # SSL Redirect Setting
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'   
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
     # External DNS - For creating a Record Set in Route53
     external-dns.alpha.kubernetes.io/hostname: devops.kae-ptl.com       
 spec:
@@ -32,14 +33,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /*
-            pathType: Prefix # SSL Redirect Setting
-            backend:
-              service:
-                name: ssl-redirect
-                port:
-                  number: 80        
-          - path: /*
+          - path: /app1
             pathType: Prefix
             backend:
               service:

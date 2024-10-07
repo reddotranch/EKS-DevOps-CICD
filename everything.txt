@@ -1,0 +1,3 @@
+deployment.apps/eks-devops-deployment configured
+service/eks-devops-nodeport-service unchanged
+Error from server (BadRequest): error when creating "manifests/03-DEVOPS-Nginx-ALB-IngressService.yml": Ingress in version "v1" cannot be handled as a Ingress: strict decoding error: unknown field "spec.rules[0].http.paths[0].backend.serviceName", unknown field "spec.rules[0].http.paths[0].backend.servicePort", unknown field "spec.rules[0].http.paths[1].backend.serviceName", unknown field "spec.rules[0].http.paths[1].backend.servicePort"
