@@ -30,14 +30,30 @@ metadata:
     external-dns.alpha.kubernetes.io/hostname: devops.kae-ptl.com       
 spec:
   ingressClassName: my-aws-ingress-class # Ingress Class
+  defaultBackend:
+    service:
+      name: eks3-devops-nodeport-service
+      port:
+        number: 80
   rules:
-    - http:
+    - host: devops1.kae-ptl.com
+      http:
         paths:
           - path: /app1
             pathType: Prefix
             backend:
               service:
                 name: eks-devops-nodeport-service
+                port:
+                  number: 80                                   
+    - host: devops2.kae-ptl.com
+      http:
+        paths:
+          - path: /app2
+            pathType: Prefix
+            backend:
+              service:
+                name: eks2-devops-nodeport-service
                 port:
                   number: 80                                   
 # Important Note-1: In path based routing order is very important, if we are going to use  "/*", try to use it at the end of all rules.         
